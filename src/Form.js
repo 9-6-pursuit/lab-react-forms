@@ -7,6 +7,20 @@ function Form() {
   const [result, setResult] = useState("");
   const [className, setClassName] = useState("");
 
+  function handleInputChange(event) {
+    setValues(event.target.value);
+  }
+
+  function handleOperation(event) {
+    setOperation(event.target.value);
+  }
+
+  function resetFormData() {
+    setValues("");
+    setOperation("");
+    setClassName("");
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     
@@ -28,22 +42,8 @@ function Form() {
         numArr.forEach(num => mode[num] ? mode[num]++ : mode[num] = 1);
         setResult(Object.keys(mode).reduce((a, b) => mode[a] > mode[b] ? a : b));
       }
-      resetValues();
+      resetFormData();
     }
-  }
-
-  function handleInputChange(event) {
-    setValues(event.target.value);
-  }
-
-  function handleOperation(event) {
-    setOperation(event.target.value);
-  }
-
-  function resetValues() {
-    setOperation("");
-    setValues("");
-    setClassName("");
   }
 
   return (
