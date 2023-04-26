@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import "./Form.css";
 
 function Form() {
-  const [values, setValues] = useState("");
+  const [className, setClassName] = useState("");
   const [operation, setOperation] = useState("");
   const [result, setResult] = useState("");
-  const [className, setClassName] = useState("");
+  const [values, setValues] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
-    
+
     let numArr = values.split(",").map(Number);
-    
+
     if (!operation || !values || numArr.includes(NaN)) {
       setResult("Invalid input.");
       setClassName("error");
@@ -24,8 +24,13 @@ function Form() {
         setResult(numArr.reduce((a, b) => a + b, 0) / numArr.length);
       }
       else if (operation === "mode") {
-        
-        const mode = {};//missing stuff
+        const mode = {};
+        numArr.forEach(num => mode[num] ? mode[num]++ : mode[num] = 1);
+        setResult(Object.keys(mode).reduce((a, b) => mode[a] > mode[b] ? a : b));
+      }
+      resetValues();
+    }
+  }
 
   function handleInputChange(event) {
     setValues(event.target.value);
@@ -36,9 +41,9 @@ function Form() {
   }
 
   function resetValues() {
+    setClassName("");
     setOperation("");
     setValues("");
-    setClassName("");
   }
 
   return (
@@ -49,7 +54,8 @@ function Form() {
           <option value=""></option>
           <option value="sum">sum</option>
           <option value="average">average</option>
-//missing stuff
+          <option value="mode">mode</option>
+        </select>
 
         <button type="submit">Calculate</button>
       </form>
@@ -61,3 +67,5 @@ function Form() {
 }
 
 export default Form;
+
+// resubmit this final
