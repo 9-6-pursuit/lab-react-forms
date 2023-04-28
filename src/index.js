@@ -9,3 +9,7 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+document.querySelector('form').onsubmit = (event) => {
+  event.preventDefault()
+} 
