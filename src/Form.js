@@ -1,4 +1,3 @@
-import React from "react";
 import "./Form.css";
 import { useState } from "react";
 
@@ -9,14 +8,76 @@ function Form() {
   const [result, setResult] = useState("")
   const [error, setError] = useState("")
 
+  
+  function handleSubmit(event){
+    event.preventDefault();
+    setError(false); //resetting the error value
+    calculate();
+  }
 
   function handleValueInputChange(event){
-    setValues(event.target.value)
+    setValues((prevValues) => event.target.value)
+    console.log("Value is", event.target.value)
   }
 
 
 
-  function calculate(values){
+
+  
+  function handleOperator(event){
+    setOperator(event.target.value);
+    console.log("setOperator is ", event.target.value)
+  }
+
+
+
+// I didn't realize I had never completed these functions. 
+
+  function averageNumbers(values) {
+    console.log(values);
+    const usableNumbers = values.split(",").map(Number);
+    const sum = usableNumbers.reduce((acc, num) => acc + num, 0);
+    const average = sum / usableNumbers.length;
+    setResult(average);
+    setValues("");
+  }
+  
+  function modeNumbers(values) {
+    const usableNumbers = values.split(",").map(Number);
+    const frequency = {};
+    let maxCount = 0;
+    let mode = "";
+  
+    usableNumbers.forEach((num) => {
+      if (frequency[num]) {
+        frequency[num]++;
+      } else {
+        frequency[num] = 1;
+      }
+  
+      if (frequency[num] > maxCount) {
+        maxCount = frequency[num];
+        mode = num.toString();
+      }
+    });
+  
+    setResult(mode);
+    setValues("");
+  }
+  
+  function sumNumbers(values){
+  const usableNumbers = values.split(",").map(Number);
+  let sum = 0
+  for (let i=0; i<usableNumbers.length; i++) {
+    sum += usableNumbers[i];
+  }
+  console.log("sum is " , sum)
+  setResult(sum);
+  setValues("")
+  }
+
+
+  function calculate(){
     if (operator==="sum") {
       sumNumbers(values);
     } else if (operator === "average") {
@@ -27,46 +88,11 @@ function Form() {
   }
 
 
-  function handleOperator(event){
-    setOperator(event.target.value);
-    console.log("setOperator is ", event.target.value)
-  }
-
-
-
-  
-  function sumNumbers(values){
-    const usableNumbers = values.split(",").map(Number);
-    let sum = 0
-    for (let i=0; i<usableNumbers.length; i++) {
-      sum += usableNumbers[i];
-    }
-    console.log("sum is " , sum)
-    setResult(sum);
-    setValues("")
-  }
-
-  function averageNumbers(values){
-
-  }
-
-  function modeNumbers(values) {
-
-  }
-
-
-
-  function handleSubmit(event){
-    event.preventDefault();
-    setError(false); //resetting the error value
-    calculate();
-
-  }
   
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input id="values" name="values" type="text" onChange={(handleValueInputChange)}/>
+        <input id="values" name="values" type="text" onChange={handleValueInputChange}/>
         <select id="operation" name="operation" onChange={handleOperator}>
           <option value=""></option>
           <option value="sum">sum</option>
@@ -85,7 +111,6 @@ function Form() {
 export default Form;
 
 /* ----- psuedocoding ------
-
 
 The user will input values into the first field.
 The user will select an operator.
@@ -127,8 +152,22 @@ Bonus
 .Clear input boxes after calculate is clicked
 .if input is invalid, do NOT clear input boxes
 .Add class of "error" to input and select elements if the inputis invalid. Then change that when they become valid again.
-
-
-
-
 */
+
+/* ------ NOTES AND PREVIOUSLY USED CODE -------
+
+  function sumNumbers(values){
+    const usableNumbers = values.split(",").map(Number);
+    let sum = 0
+    for (let i=0; i<usableNumbers.length; i++) {
+      sum += usableNumbers[i];
+    }
+    console.log("sum is " , sum)
+    setResult(sum);
+    setValues("")
+  }
+
+  */
+
+
+
